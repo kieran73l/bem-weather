@@ -13,4 +13,4 @@ const MODULES = [BrowserModule, AppRoutingModule, HttpClientModule];
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
