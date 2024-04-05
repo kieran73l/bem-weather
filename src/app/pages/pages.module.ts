@@ -9,4 +9,4 @@ const PAGES = [HomeComponent];
   imports: [CommonModule],
   exports: PAGES,
 })
-export class PagesModule { }
+export class PagesModule {}
