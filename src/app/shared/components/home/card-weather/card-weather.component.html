@@ -1,6 +1,6 @@
 <div class="p-8" *ngIf="!loading; else loadingSpinner">
   <h2 class="font-normal capitalize">
-    {{ weatherInfo?.name }}
+    {{ weatherInfo?.name || 'Sem informação' }}
   </h2>
   <hr />
 
@@ -11,7 +11,9 @@
           [icon]="faTemperatureHigh"
           size="xl"
           style="color: #dd6464; width: 15px"></fa-icon>
-        <span class="w-20 text-lg">{{ weatherInfo?.main?.temp_max }} Cº</span>
+        <span class="w-20 text-lg"
+          >{{ weatherInfo?.main?.temp_max || '00.00' }} Cº</span
+        >
         <span class="w-40 text-sm italic text-gray-600"
           >temperatura máxima</span
         >
@@ -21,7 +23,9 @@
           [icon]="faTemperatureQuarter"
           size="xl"
           style="color: #e7d156; width: 15px"></fa-icon>
-        <span class="w-20 text-lg">{{ weatherInfo?.main?.temp }} Cº</span>
+        <span class="w-20 text-lg"
+          >{{ weatherInfo?.main?.temp || '00.00' }} Cº</span
+        >
         <span class="w-40 text-sm italic text-gray-600">temperatura atual</span>
       </div>
       <div class="flex items-center gap-4 mt-4">
@@ -29,7 +33,9 @@
           [icon]="faTemperatureLow"
           size="xl"
           style="color: #56a1e7; width: 15px"></fa-icon>
-        <span class="w-20 text-lg">{{ weatherInfo?.main?.temp_min }} Cº</span>
+        <span class="w-20 text-lg"
+          >{{ weatherInfo?.main?.temp_min || '00.00' }} Cº</span
+        >
         <span class="text-sm italic text-gray-600 w-36"
           >temperatura miníma</span
         >
@@ -41,7 +47,9 @@
           [icon]="faDroplet"
           size="xl"
           style="color: #6498dd; width: 15px"></fa-icon>
-        <span class="w-20 text-lg">{{ weatherInfo?.main?.humidity }} %</span>
+        <span class="w-20 text-lg"
+          >{{ weatherInfo?.main?.humidity || '00' }} %</span
+        >
         <span class="w-40 text-sm italic text-gray-600">Humidade</span>
       </div>
       <div class="flex items-center gap-4 mt-4">
@@ -49,7 +57,9 @@
           [icon]="faCloud"
           size="xl"
           style="color: #94aab9; width: 15px; margin: 0 5px 0 -5px"></fa-icon>
-        <span class="w-20 text-lg">{{ weatherInfo?.clouds?.all }} %</span>
+        <span class="w-20 text-lg"
+          >{{ weatherInfo?.clouds?.all || '00' }} %</span
+        >
         <span class="w-40 text-sm italic text-gray-600">Nuvens</span>
       </div>
       <div class="flex items-center gap-4 mt-4">
@@ -58,7 +68,7 @@
           size="xl"
           style="color: #b8b8c7; width: 15px"></fa-icon>
         <span class="w-20 text-lg"
-          >{{ weatherInfo?.main?.temp_min?.toFixed(0) }} m/s</span
+          >{{ weatherInfo?.main?.temp_min?.toFixed(0) || '00' }} m/s</span
         >
         <span class="text-sm italic text-gray-600 w-36">Velocidade</span>
       </div>
@@ -66,7 +76,8 @@
   </div>
   <span
     class="flex justify-center italic text-center text-gray-900 md:mt-12 md:mt text-md font-bo"
-    >Hoje o céu está " {{ weatherInfo?.weather?.[0]?.description }} "</span
+    >Hoje o céu está "
+    {{ weatherInfo?.weather?.[0]?.description || '' }} "</span
   >
 </div>
 

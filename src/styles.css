@@ -1,5 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body { background-color: #ffffff;  font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+body {
+  background-color: #ffffff;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
