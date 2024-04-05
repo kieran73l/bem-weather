@@ -1,8 +1,5 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body { background-color: #ffffff;  font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-::ng-deep body {
-  margin: 0;
-  padding: 0;
-}

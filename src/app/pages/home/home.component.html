@@ -1,9 +1,21 @@
-<main>
-  <button (click)="alterLocation(40.82108434, -74.21882629)">opa</button>
-  <div
-    class="bottom-0 w-2/3 m-10 md:w-[400px] right-10 right-0-0 top-10 h-[400px]">
-    <div class="h-full p-1 border-2 shadow-lg rounded-xl">
-      <div id="map" class="rounded-lg"></div>
+<header
+  class="container h-20 mx-auto bg-[#d7e3ff] flex justify-center items-center shadow-lg sm:rounded-t-lg sm:mt-2">
+  <p class="text-[#001b3f] text-lg sm:text-4xl">Bem Weather</p>
+</header>
+<main class="container mx-auto">
+  <section class="bg-gradient-to-b bg-[#f2f2f2] rounded-b-lg shadow-lg p-8">
+    <app-search-city (search)="search($event)"></app-search-city>
+  </section>
+  <section class="flex flex-wrap justify-between gap-10 py-8 mx-2">
+    <app-card-weather
+      class="w-full lg:max-w-[48%] h-[400px] p-1 border-2 shadow-xl rounded-xl"
+      [weatherInfo]="weatherInfo"
+      [loading]="loading">
+    </app-card-weather>
+    <div class="w-full lg:max-w-[48%] h-[400px]">
+      <div class="h-full p-1 border-2 shadow-xl rounded-xl">
+        <div id="map" class="rounded-lg"></div>
+      </div>
     </div>
-  </div>
+  </section>
 </main>

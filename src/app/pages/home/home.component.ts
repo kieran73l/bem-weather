@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import * as L from 'leaflet';
+import { WeatherConditions } from 'src/app/interfaces/weather-conditions';
+import { MapService } from 'src/app/services/map.service';
+import { OpenWeatherService } from 'src/app/services/open-weather.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -7,42 +10,54 @@ import * as L from 'leaflet';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  private maps: L.Map;
-  private marker: L.Marker;
-  private location: L.LatLngExpression = [-21.21, -47.82];
+  public loading = false;
+  public weatherInfo: WeatherConditions | undefined;
 
-  constructor() {
-    this.maps = {} as L.Map;
-    this.marker = {} as L.Marker;
-  }
-
-  private initMap(): void {
-    this.maps = L.map('map', {
-      center: this.location,
-      zoom: 15,
-    });
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-    }).addTo(this.maps);
-
-    this.addMarker(this.location);
-  }
-
-  private addMarker(location: L.LatLngExpression): void {
-    this.marker = L.marker(location as L.LatLngExpression).addTo(this.maps);
-  }
-
-  public alterLocation(lat: number, long: number): void {
-    const newLocation: L.LatLngExpression = [lat, long];
-    if (this.marker) {
-      this.maps.removeLayer(this.marker);
-    }
-    this.maps.setView(newLocation, 15);
-    this.addMarker(newLocation);
-  }
+  constructor(
+    private openWeatherService: OpenWeatherService,
+    private mapService: MapService
+  ) {}
 
   ngOnInit() {
-    this.initMap();
+    this.mapService.initMap([-21.1783, -47.8067]);
+    this.search('Ribeirão Preto');
+  }
+
+  public async getWeatherByCity(
+    input: string
+  ): Promise<WeatherConditions | undefined> {
+    const city = await this.openWeatherService.getCity(input);
+    if (!city || city?.length === 0) {
+      throw new Error('City not found');
+    }
+    const lat = city[0].lat;
+    const lon = city[0].lon;
+    this.mapService.alterLocation([lat, lon]);
+    return this.openWeatherService.getWeather(lat, lon);
+  }
+
+  public async search(query: string) {
+    if (!query) {
+      Swal.fire({
+        title: 'Por favor, insira uma cidade',
+        icon: 'info',
+        confirmButtonText: 'voltar',
+      });
+      return;
+    }
+    this.loading = true;
+    try {
+      const info = await this.getWeatherByCity(query);
+      console.log(info);
+      this.weatherInfo = info;
+    } catch (error) {
+      Swal.fire({
+        title: 'Oops! Aconteceu algo de errado',
+        text: 'Cidade não encontrada',
+        icon: 'error',
+        confirmButtonText: 'voltar',
+      });
+    }
+    this.loading = false;
   }
 }

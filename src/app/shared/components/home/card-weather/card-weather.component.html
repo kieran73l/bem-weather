@@ -1,0 +1,53 @@
+<div class="p-8" *ngIf="!loading; else loadingSpinner">
+  <h2 class="font-normal capitalize">
+    {{ weatherInfo?.name }}
+  </h2>
+  <hr />
+  <div class="flex items-center gap-4 mt-4">
+    <fa-icon
+      [icon]="faTemperatureHigh"
+      size="xl"
+      style="color: #dd6464; width: 15px"></fa-icon>
+    <span class="w-20 text-lg">{{ weatherInfo?.main?.temp_max }} Cº</span>
+    <span class="w-40 text-sm italic text-gray-600">temperatura máxima</span>
+  </div>
+  <div class="flex items-center gap-4 mt-4">
+    <fa-icon
+      [icon]="faTemperatureQuarter"
+      size="xl"
+      style="color: #e7d156; width: 15px"></fa-icon>
+    <span class="w-20 text-lg">{{ weatherInfo?.main?.temp }} Cº</span>
+    <span class="w-40 text-sm italic text-gray-600">temperatura atual</span>
+  </div>
+  <div class="flex items-center gap-4 mt-4">
+    <fa-icon
+      [icon]="faTemperatureLow"
+      size="xl"
+      style="color: #56a1e7; width: 15px"></fa-icon>
+    <span class="w-20 text-lg">{{ weatherInfo?.main?.temp_min }} Cº</span>
+    <span class="text-sm italic text-gray-600 w-36">temperatura miníma</span>
+  </div>
+  <span
+    class="flex justify-center mt-10 italic text-center text-gray-900 capitalize text-md font-bo"
+    >Hoje estamos com " {{ weatherInfo?.weather?.[0]?.description }} "</span
+  >
+</div>
+
+<ng-template #loadingSpinner>
+  <!-- Coloque aqui o código do spinner -->
+  <div class="p-8">
+    <span class="block w-full h-8 mb-1 bg-gray-300 animate-pulse">
+      &nbsp;
+    </span>
+    <hr />
+    <span class="block w-1/2 h-8 mt-8 mb-1 bg-gray-300 animate-pulse">
+      &nbsp;
+    </span>
+    <span class="block w-1/2 h-8 my-1 bg-gray-200 animate-pulse"> &nbsp; </span>
+    <span class="block w-1/2 h-8 my-1 bg-gray-200 animate-pulse"> &nbsp; </span>
+    <span
+      class="flex justify-center h-8 mt-10 italic text-center text-gray-900 capitalize bg-gray-100 animate-pulse text-md font-bo"
+      >&nbsp;</span
+    >
+  </div>
+</ng-template>
