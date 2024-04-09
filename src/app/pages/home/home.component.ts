@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherConditions } from 'src/app/interfaces/weather-conditions';
-import { MapService } from 'src/app/services/map.service';
-import { OpenWeatherService } from 'src/app/services/open-weather.service';
+import { MapService } from 'src/app/services/map-service/map.service';
+import { OpenWeatherService } from 'src/app/services/open-weather/open-weather.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.mapService.initMap([-21.1783, -47.8067]);
-    this.search('Ribeirão Preto');
+    this.mapService.initMap([0, 0]);
+    this.search('');
   }
 
   public async getWeatherByCity(
@@ -48,7 +48,6 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     try {
       const info = await this.getWeatherByCity(query);
-      console.log(info);
       this.weatherInfo = info;
     } catch (error) {
       Swal.fire({

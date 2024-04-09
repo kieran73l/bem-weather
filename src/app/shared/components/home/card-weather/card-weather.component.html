@@ -77,12 +77,11 @@
   <span
     class="flex justify-center italic text-center text-gray-900 md:mt-12 md:mt text-md font-bo"
     >Hoje o céu está "
-    {{ weatherInfo?.weather?.[0]?.description || '' }} "</span
+    {{ weatherInfo?.weather?.[0]?.description || 'Sem informação' }} "</span
   >
 </div>
 
 <ng-template #loadingSpinner>
-  <!-- Coloque aqui o código do spinner -->
   <div class="p-8">
     <span class="block w-full h-8 mb-1 bg-gray-300 animate-pulse">
       &nbsp;

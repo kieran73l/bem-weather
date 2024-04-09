@@ -13,7 +13,7 @@ export class SearchCityComponent implements OnInit {
     this.query = '';
   }
   ngOnInit(): void {
-    this.query = 'Ribeirão Preto';
+    this.query = '';
   }
 
   public onSearch() {

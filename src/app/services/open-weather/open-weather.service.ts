@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
+import { CityInfo } from 'src/app/interfaces/city-info';
+import { WeatherConditions } from 'src/app/interfaces/weather-conditions';
 import { environment } from 'src/environments/environment';
-import { CityInfo } from '../interfaces/city-info';
-import { WeatherConditions } from '../interfaces/weather-conditions';
 
 interface Query {
   [key: string]: string | number | undefined;
@@ -65,8 +66,8 @@ export class OpenWeatherService {
     this.queriesCity['q'] = encodeURIComponent(input);
     const query = this.queryFormat(this.queriesCity);
     const url = `${this.baseOpenWeatherUrl}${this.pathCity}${query}`;
-
-    return this.http.get<CityInfo[]>(url).toPromise();
+    const result = await lastValueFrom(this.http.get<CityInfo[]>(url));
+    return result;
   }
 
   public async getWeather(
@@ -77,7 +78,7 @@ export class OpenWeatherService {
     this.queriesWeather['lon'] = lon;
     const query = this.queryFormat(this.queriesWeather);
     const url = `${this.baseOpenWeatherUrl}${this.pathWeather}${query}`;
-
-    return this.http.get<WeatherConditions>(url).toPromise();
+    const result = await lastValueFrom(this.http.get<WeatherConditions>(url));
+    return result;
   }
 }
