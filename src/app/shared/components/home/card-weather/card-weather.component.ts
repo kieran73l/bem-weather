@@ -15,8 +15,7 @@ import { WeatherConditions } from 'src/app/interfaces/weather-conditions';
   styleUrls: ['./card-weather.component.css'],
 })
 export class CardWeatherComponent {
-  @Input() weatherInfo: WeatherConditions | undefined; // Initialize the weatherInfo property
-  @Input() loading = false;
+  @Input() weatherInfo: WeatherConditions | undefined;
 
   constructor() {}
   skeletons: number[] = Array(6).map((x, i) => i);

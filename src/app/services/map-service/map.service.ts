@@ -13,10 +13,6 @@ export class MapService {
     this.marker = {} as L.Marker;
   }
 
-  // ngOnInit() {
-  //   this.initMap([-21.21, -47.82]);
-  // }
-
   public initMap(location: L.LatLngExpression): void {
     this.maps = L.map('map', {
       center: location,

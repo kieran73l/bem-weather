@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private openWeatherService: OpenWeatherService,
     private mapService: MapService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.mapService.initMap([-21.1783, -47.8067]);
