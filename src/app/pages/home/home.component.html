@@ -4,9 +4,12 @@
 </header>
 <main class="container mx-auto">
   <section class="bg-gradient-to-b bg-[#f2f2f2] rounded-b-lg shadow-lg p-8">
-    <app-search-city (search)="search($event)"></app-search-city>
+    <app-search-city
+      (search)="search($event)"
+      [options]="options"
+      (selectOption)="onSelect($event)"></app-search-city>
   </section>
-  <section class="flex flex-wrap justify-between gap-1 py-8 mx-1">
+  <section class="flex flex-wrap justify-between gap-5 py-8 mx-1 sm:gap-1">
     <app-card-weather
       class="w-full lg:max-w-[49%] border-2 shadow-xl rounded-xl h-[480px] min-[640px]:h-72 lg:h-[415px]"
       [weatherInfo]="weatherInfo"

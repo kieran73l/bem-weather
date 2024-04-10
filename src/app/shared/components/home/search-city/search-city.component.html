@@ -1,10 +1,10 @@
-<div class="flex items-center w-full">
+<div class="relative flex items-center w-full">
   <mat-form-field class="w-full sm:w-1/2" appearance="fill">
     <input
       matInput
       placeholder="Pesquisar cidade"
       [(ngModel)]="query"
-      (keyup.enter)="onSearch()"
+      (ngModelChange)="onSearch()"
       style="min-width: 500px" />
     <button
       *ngIf="query !== ''"
@@ -15,6 +15,19 @@
       <mat-icon>clear</mat-icon>
     </button>
   </mat-form-field>
+  <ul
+    *ngIf="options && options.length > 0 && query !== ''"
+    class="absolute z-50 w-[88%] bg-white border p-2 shadow-lg rounded-md overflow-auto sm:w-1/2 max-h-60 divide-y top-16">
+    <li
+      *ngFor="let city of options"
+      class="p-1 my-1 truncate transition-colors cursor-pointer hover:bg-gray-200"
+      (click)="onSelect(city)"
+      tabindex="0"
+      (click)="onSelect(city)"
+      (keydown.enter)="onSelect(city)">
+      {{ city?.display_name }}
+    </li>
+  </ul>
   <button
     mat-icon-button
     class="mx-2 mb-4"

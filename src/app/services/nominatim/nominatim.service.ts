@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { ICityFromNominatim } from 'src/app/interfaces/nominatim.interface';
+import { ICityByNominatim } from 'src/app/interfaces/nominatim.interface';
 import { Query } from 'src/app/interfaces/query.interface';
 import { Formatter } from 'src/app/shared/utils/formatter';
 import { environment } from 'src/environments/environment';
@@ -34,9 +34,7 @@ export class NominatimService {
     this.queries['q'] = this.formatQuerySearch(city);
     const query = this.formatter.queryFormat(this.queries);
     const url = `${this.baseNominatimUrl}${query}`;
-    const result = await lastValueFrom(
-      this.http.get<ICityFromNominatim[]>(url)
-    );
+    const result = await lastValueFrom(this.http.get<ICityByNominatim[]>(url));
     return result;
   }
 }

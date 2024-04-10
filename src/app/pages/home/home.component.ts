@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ICityByNominatim } from 'src/app/interfaces/nominatim.interface';
 import { IWeatherByOpenWeather } from 'src/app/interfaces/open-weather.interface';
 import { MapService } from 'src/app/services/map-service/map.service';
 import { NominatimService } from 'src/app/services/nominatim/nominatim.service';
@@ -13,6 +14,7 @@ import Swal from 'sweetalert2';
 export class HomeComponent implements OnInit {
   public loading = false;
   public weatherInfo: IWeatherByOpenWeather | undefined;
+  public options: ICityByNominatim[] | undefined;
 
   constructor(
     private openWeatherService: OpenWeatherService,
@@ -24,39 +26,45 @@ export class HomeComponent implements OnInit {
     this.mapService.initMap([0, 0]);
   }
 
-  public async getWeatherByCity(
-    input: string
-  ): Promise<IWeatherByOpenWeather | undefined> {
-    const city = await this.nominatimService.searchCity(input);
-    if (!city || city?.length === 0) {
-      throw new Error('City not found');
-    }
-    const lat = Number(city[0].lat);
-    const lon = Number(city[0].lon);
-
-    const weather = await this.openWeatherService.getWeather(lat, lon);
-    this.mapService.alterLocation([lat, lon]);
-
-    return weather;
+  private clearInfo() {
+    this.options = [];
+    this.weatherInfo = undefined;
   }
 
-  public async search(query: string) {
-    if (!query) {
-      Swal.fire({
-        title: 'Por favor, insira uma cidade',
-        icon: 'info',
-        confirmButtonText: 'voltar',
-      });
+  public async search(input: string) {
+    if (!input || input.length < 3) {
       return;
     }
-    this.loading = true;
     try {
-      const info = await this.getWeatherByCity(query);
-      this.weatherInfo = info;
+      const cities = await this.nominatimService.searchCity(input);
+      if (!cities || cities?.length === 0) {
+        throw new Error('City not found');
+      }
+      this.options = cities;
     } catch (error) {
+      this.clearInfo();
       Swal.fire({
         title: 'Oops! Aconteceu algo de errado.',
         text: 'Cidade não encontrada',
+        icon: 'error',
+        confirmButtonText: 'voltar',
+      });
+    }
+  }
+
+  public async onSelect(cityInfo: ICityByNominatim) {
+    this.loading = true;
+    try {
+      const lat = Number(cityInfo.lat);
+      const lon = Number(cityInfo.lon);
+      const weather = await this.openWeatherService.getWeather(lat, lon);
+      this.weatherInfo = weather;
+      this.mapService.alterLocation([lat, lon]);
+    } catch (error) {
+      this.clearInfo();
+      Swal.fire({
+        title: 'Oops! Aconteceu algo de errado.',
+        text: 'Erro ao buscar informações da cidade selecionada',
         icon: 'error',
         confirmButtonText: 'voltar',
       });

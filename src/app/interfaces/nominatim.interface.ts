@@ -1,4 +1,4 @@
-export interface ICityFromNominatim {
+export interface ICityByNominatim {
   addresstype: string;
   boundingbox: [string, string, string, string];
   class: string;
