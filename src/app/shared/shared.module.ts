@@ -22,6 +22,7 @@ const IMPORTS = [
   MatButtonModule,
   FontAwesomeModule,
 ];
+
 @NgModule({
   declarations: COMPONENTS,
   imports: IMPORTS,

@@ -7,7 +7,7 @@ import {
   faTemperatureQuarter,
   faWind,
 } from '@fortawesome/free-solid-svg-icons';
-import { WeatherConditions } from 'src/app/interfaces/weather-conditions';
+import { IWeatherByOpenWeather } from 'src/app/interfaces/open-weather.interface';
 
 @Component({
   selector: 'app-card-weather',
@@ -15,7 +15,7 @@ import { WeatherConditions } from 'src/app/interfaces/weather-conditions';
   styleUrls: ['./card-weather.component.css'],
 })
 export class CardWeatherComponent {
-  @Input() weatherInfo: WeatherConditions | undefined;
+  @Input() weatherInfo: IWeatherByOpenWeather | undefined;
   @Input() loading = false;
 
   constructor() {}

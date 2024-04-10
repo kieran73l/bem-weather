@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { CityInfo } from 'src/app/interfaces/city-info';
-import { WeatherConditions } from 'src/app/interfaces/weather-conditions';
+import {
+  ICityByOpenWeather,
+  IWeatherByOpenWeather,
+} from 'src/app/interfaces/open-weather.interface';
+import { Query } from 'src/app/interfaces/query.interface';
+import { Formatter } from 'src/app/shared/utils/formatter';
 import { environment } from 'src/environments/environment';
-
-interface Query {
-  [key: string]: string | number | undefined;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,10 @@ export class OpenWeatherService {
   private pathWeather: string;
   private queriesWeather: Query;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private formatter: Formatter
+  ) {
     this.baseOpenWeatherUrl = environment.openWeatherUrl;
     this.pathCity = '/geo/1.0/direct';
     this.queriesCity = {
@@ -37,48 +40,29 @@ export class OpenWeatherService {
     };
   }
 
-  private queryFormat(query?: Query): string {
-    if (!query) return '';
-
-    const cleanedQuery: Query = {};
-    for (const key in query) {
-      if (
-        Object.prototype.hasOwnProperty.call(query, key) &&
-        query[key] !== undefined
-      ) {
-        cleanedQuery[key] = query[key];
-      }
-    }
-
-    const queryString =
-      Object.keys(cleanedQuery).length === 0
-        ? ''
-        : `?${Object.entries(cleanedQuery)
-            .map(([key, value]) => `${key}=${value}`)
-            .join('&')}`;
-
-    return queryString;
-  }
-
   public async getCity(
     input: string
-  ): Promise<never[] | CityInfo[] | undefined> {
+  ): Promise<never[] | ICityByOpenWeather[] | undefined> {
     this.queriesCity['q'] = encodeURIComponent(input);
-    const query = this.queryFormat(this.queriesCity);
+    const query = this.formatter.queryFormat(this.queriesCity);
     const url = `${this.baseOpenWeatherUrl}${this.pathCity}${query}`;
-    const result = await lastValueFrom(this.http.get<CityInfo[]>(url));
+    const result = await lastValueFrom(
+      this.http.get<ICityByOpenWeather[]>(url)
+    );
     return result;
   }
 
   public async getWeather(
     lat: number,
     lon: number
-  ): Promise<WeatherConditions | undefined> {
+  ): Promise<IWeatherByOpenWeather | undefined> {
     this.queriesWeather['lat'] = lat;
     this.queriesWeather['lon'] = lon;
-    const query = this.queryFormat(this.queriesWeather);
+    const query = this.formatter.queryFormat(this.queriesWeather);
     const url = `${this.baseOpenWeatherUrl}${this.pathWeather}${query}`;
-    const result = await lastValueFrom(this.http.get<WeatherConditions>(url));
+    const result = await lastValueFrom(
+      this.http.get<IWeatherByOpenWeather>(url)
+    );
     return result;
   }
 }
