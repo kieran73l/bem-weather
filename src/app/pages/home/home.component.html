@@ -6,13 +6,13 @@
   <section class="bg-gradient-to-b bg-[#f2f2f2] rounded-b-lg shadow-lg p-8">
     <app-search-city (search)="search($event)"></app-search-city>
   </section>
-  <section class="flex flex-wrap justify-between gap-10 py-8 mx-2">
+  <section class="flex flex-wrap justify-between gap-1 py-8 mx-1">
     <app-card-weather
-      class="w-full lg:max-w-[48%] h-[500px] md:h-[350px] p-1 border-2 shadow-xl rounded-xl"
+      class="w-full lg:max-w-[49%] border-2 shadow-xl rounded-xl h-[480px] min-[640px]:h-72 lg:h-[415px]"
       [weatherInfo]="weatherInfo"
       [loading]="loading">
     </app-card-weather>
-    <div class="w-full lg:max-w-[48%] h-[500px] md:h-[350px]">
+    <div class="w-full lg:max-w-[49%] h-[480px] min-[640px]:h-72 lg:h-[415px]">
       <div class="h-full p-1 border-2 shadow-xl rounded-xl">
         <div id="map" class="rounded-lg"></div>
       </div>

@@ -33,8 +33,11 @@ export class HomeComponent implements OnInit {
     }
     const lat = Number(city[0].lat);
     const lon = Number(city[0].lon);
+
+    const weather = await this.openWeatherService.getWeather(lat, lon);
     this.mapService.alterLocation([lat, lon]);
-    return this.openWeatherService.getWeather(lat, lon);
+
+    return weather;
   }
 
   public async search(query: string) {
@@ -52,7 +55,7 @@ export class HomeComponent implements OnInit {
       this.weatherInfo = info;
     } catch (error) {
       Swal.fire({
-        title: 'Oops! Aconteceu algo de errado',
+        title: 'Oops! Aconteceu algo de errado.',
         text: 'Cidade não encontrada',
         icon: 'error',
         confirmButtonText: 'voltar',
